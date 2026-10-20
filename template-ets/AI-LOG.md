@@ -54,7 +54,12 @@ Log yang jujur tidak mengurangi nilai, sebanyak apa pun AI dipakai. Yang mengura
 - Dipakai: peminjaman.go, store.go, main.go
 - Diubah: penambahan function cariIndexPeminjaman, library strconv di peminjaman.go, func handleDaftarPeminjaman, func handleDetailPeminjaman,
 
-## (Implementasi Change Request)
+## (Implementasi Change Request PARSIAL)
 - Prompt: Ada file baru di Folder ETS/: Lembar CR-C Pembatalan.docx. Baca, dan masukkan ke context window. Outputkan perubahan di peminjaman di chat ini.
 - Dipakai: peminjaman.go, main.go
 - Diubah: penambahan function handleBatalkanPeminjaman, handlefunc handleBatalkanPeminjaman. KARENA B6 BELUM ADA AS OF LOG INI.
+
+## (Implementasi Validasi dan Error)
+- Prompt: Implementasikan B4 project
+- Dipakai: validasi_test.go
+- Diubah: penambahan function TestValidasiB4
