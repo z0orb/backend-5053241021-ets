@@ -17,3 +17,5 @@
 
 ## Yang belum selesai
 (Tulis jujur bagian mana yang belum berjalan.)
+
+Bagiann yang belum berjalan adalah B5, B6, B7, Fitur khas persona, Serta sebenarnya Change Request belum selesai, karena yang di implementasi hanya yang relate dengan B3, yang relate dengan B6 belum dibuat karena B6 nya itu sendiri belum dibuat.
