@@ -29,7 +29,22 @@ Log yang jujur tidak mengurangi nilai, sebanyak apa pun AI dipakai. Yang mengura
 - Dipakai: Tidak ada
 - Diubah: AI-LOG.md - Mencatat prompt
 
-## (Pilihan struktur data sebelum mulai coding)
-- Prompt: sebutkan beberapa pilihan struktur data yang cocok untuk project ini, aku pilih
-- Dipakai: Tidak ada
-- Diubah: AI-LOG.md - Mencatat prompt
+## (Pembuatan models.go project)
+- Prompt: Buat models.go untuk memfasilitasi B1 & B2
+- Dipakai: models.go
+- Diubah: penambahan struct SumberDaya dan Peminjaman
+
+## (Pembuatan helpers.go project)
+- Prompt: Buat helpers.go untuk write JSON dan Error untuk test endpoint project ini. Sekalian function untuk mengambil ID dari path endpooint.
+- Dipakai: helpers.go
+- Diubah: penambahan function tulisJSON, ambilIDDariPath, dan tulisError
+
+## (Implementasi sumber_daya.go (B1))
+- Prompt: Implementasikan B1 project 
+- Dipakai: sumber_daya.go
+- Diubah: penambahan function validasiSumberDaya, handleBuatSumberDaya, handleDaftarSumberDaya, handleDetailSumberDaya
+
+## (Implementasi peminjaman.go (B2))
+- Prompt: Implementasikan B2 project 
+- Dipakai: peminjaman.go
+- Diubah: penambahan function validasiPeminjaman, handleBuatPeminjaman,

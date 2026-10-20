@@ -1,12 +1,12 @@
 # PinjamKampus API
 
-- Nama dan NRP:
-- Persona:
+- Nama dan NRP: Jason Maxmilan Adrianputra - 5053241021
+- Persona: Persona B - Mahasiswa peminjam alat
 - Cara menjalankan: `go run .` lalu buka http://localhost:8080
 
 ## Fitur
 - [DONE] B1 Sumber daya
-- [ ] B2 Buat peminjaman
+- [DONE] B2 Buat peminjaman
 - [ ] B3 Lihat peminjaman (daftar, filter, detail)
 - [ ] B4 Validasi dan error JSON
 - [ ] B5 Deteksi bentrok (409)

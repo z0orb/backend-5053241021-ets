@@ -26,9 +26,15 @@ curl: (7) Failed to connect to localhost:8080 after 0 ms: Could not connect to s
 - Penyebab dan solusi: go run main.go anya mengompilasi file main.go, jadi fungsi di store.go, helpers.go, dan file lain tidak ikut terbaca. Solusi adalah jalankan 'go run .'
 
 ### Bug 2
-- Gejala:
-- Cara menemukan:
-- Penyebab dan solusi:
+- Gejala: ❯ curl -i -X POST localhost:8080/peminjaman -d '{"sumber_daya_id":1,"peminjam":"  Rina ","tanggal":"2026-11-02","slot_mulai":3,"slot_selesai":4,"jumlah":1}'
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Date: Tue, 20 Oct 2026 09:36:08 GMT
+Content-Length: 43
+
+{"error":"sumber_daya_id tidak ditemukan"}
+- Cara menemukan: Jalankan command curl -i -X POST localhost:8080/peminjaman -d '{"sumber_daya_id":1,"peminjam":"  Rina ","tanggal":"2026-11-02","slot_mulai":3,"slot_selesai":4,"jumlah":1}' di terminal langsung setelah go run . (abis terminate session sbelumnya).
+- Penyebab dan solusi: Store kosong setiap kali server dijalankan ulang, sehingga harus membuat sumberdaya nya dulu baru bisa dipinjam. 
 
 ## 5. Change request
 (Apa yang diminta, bagian kode mana yang kamu ubah, dan satu keputusan desain yang kamu ambil.)
