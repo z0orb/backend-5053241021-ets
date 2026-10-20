@@ -19,7 +19,7 @@ Pilihan lain: map[int]*Peminjaman dengan id sebagai key.
 Alasan: Kontrak mewajibkan daftar terurut menurut id naik. Urutan map di Go acak, jadi setiap GET daftar nanti bakal harus di-sort dulu. Kalau lupa, pengujian urutan gagal. Jadi biar tidak usah uimplement sorting algorithm, keputusan tersebut saya ambil.
 
 ## 4. Bug atau kendala (minimal dua)
-### Bug 1
+### Bug 1 (kendala)
 - Gejala: curl -i -X POST localhost:8080/sumber-daya -d '{"nama":"  Proyektor  ","jenis":"alat","stok":3}'
 curl: (7) Failed to connect to localhost:8080 after 0 ms: Could not connect to server
 - Cara menemukan: run go main.go di terminal
