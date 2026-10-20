@@ -28,3 +28,14 @@ func (store *Store) cariSumberDaya(id int) (SumberDaya, bool) {
 	}
 	return SumberDaya{}, false
 }
+
+// cariIndexPeminjaman mengembalikan posisi peminjaman di slice, atau -1 jika tidak ada.
+// Dipanggil saat mutex sudah terkunci.
+func (store *Store) cariIndexPeminjaman(id int) int {
+	for index, peminjaman := range store.daftarPeminjaman {
+		if peminjaman.ID == id {
+			return index
+		}
+	}
+	return -1
+}

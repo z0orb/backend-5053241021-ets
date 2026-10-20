@@ -38,3 +38,14 @@ Content-Length: 43
 
 ## 5. Change request
 (Apa yang diminta, bagian kode mana yang kamu ubah, dan satu keputusan desain yang kamu ambil.)
+
+5+0+5+3+2+4+1+0+2+1 = 23 mod 3 = 2. File C.
+
+DELETE /peminjaman/{id} berubah makna menjadi pembatalan:
+Status peminjaman menjadi "dibatalkan" dan datanya tetap ada. Respons tetap 204 tanpa body.
+GET /peminjaman/{id} setelah dibatalkan menghasilkan 200 dengan status dibatalkan, dan peminjaman itu tetap muncul di GET /peminjaman (bisa disaring dengan ?status=dibatalkan).
+Peminjaman yang dibatalkan tidak menahan slot: slot yang sama bisa langsung dipinjam orang lain.
+Membatalkan peminjaman yang sudah berstatus dibatalkan menghasilkan 409.
+Id bukan angka tetap 400 dan id tidak ditemukan tetap 404.
+
+Bagian kode dirubah: peminjaman.go, nambah function handleBatalkanPeminjaman. main.go nambah store.handleBatalkanPeminjaman

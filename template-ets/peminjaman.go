@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 	"unicode/utf8"
@@ -49,6 +50,7 @@ func (store *Store) handleBuatPeminjaman(writer http.ResponseWriter, request *ht
 		tulisError(writer, http.StatusBadRequest, pesanError)
 		return
 	}
+
 	// Nanti: cek bentrok (B5) dan aturan persona B (maks 3 slot, kuota 2) disisipkan di sini,
 	// masih di dalam lock yang sama.
 
@@ -57,4 +59,83 @@ func (store *Store) handleBuatPeminjaman(writer http.ResponseWriter, request *ht
 	store.nextPeminjamanID++
 	store.daftarPeminjaman = append(store.daftarPeminjaman, input)
 	tulisJSON(writer, http.StatusCreated, input)
+}
+
+func (store *Store) handleDaftarPeminjaman(writer http.ResponseWriter, request *http.Request) {
+	query := request.URL.Query()
+
+	filterSumberDayaID := 0
+	adaFilterSumberDaya := false
+	if teksID := query.Get("sumber_daya_id"); teksID != "" {
+		angkaID, err := strconv.Atoi(teksID)
+		if err != nil {
+			tulisError(writer, http.StatusBadRequest, "sumber_daya_id harus angka")
+			return
+		}
+		filterSumberDayaID = angkaID
+		adaFilterSumberDaya = true
+	}
+	filterTanggal := query.Get("tanggal")
+	filterStatus := query.Get("status")
+
+	store.mutex.Lock()
+	defer store.mutex.Unlock()
+
+	hasil := []Peminjaman{}
+	for _, peminjaman := range store.daftarPeminjaman {
+		if adaFilterSumberDaya && peminjaman.SumberDayaID != filterSumberDayaID {
+			continue
+		}
+		if filterTanggal != "" && peminjaman.Tanggal != filterTanggal {
+			continue
+		}
+		if filterStatus != "" && peminjaman.Status != filterStatus {
+			continue
+		}
+		hasil = append(hasil, peminjaman)
+	}
+	tulisJSON(writer, http.StatusOK, hasil)
+}
+
+func (store *Store) handleDetailPeminjaman(writer http.ResponseWriter, request *http.Request) {
+	id, valid := ambilIDDariPath(request)
+	if !valid {
+		tulisError(writer, http.StatusBadRequest, "id harus angka")
+		return
+	}
+
+	store.mutex.Lock()
+	defer store.mutex.Unlock()
+
+	index := store.cariIndexPeminjaman(id)
+	if index == -1 {
+		tulisError(writer, http.StatusNotFound, "peminjaman tidak ditemukan")
+		return
+	}
+	tulisJSON(writer, http.StatusOK, store.daftarPeminjaman[index])
+}
+
+// handleBatalkanPeminjaman: CR-C, DELETE tidak menghapus data, hanya mengubah status menjadi "dibatalkan".
+func (store *Store) handleBatalkanPeminjaman(writer http.ResponseWriter, request *http.Request) {
+	id, valid := ambilIDDariPath(request)
+	if !valid {
+		tulisError(writer, http.StatusBadRequest, "id harus angka")
+		return
+	}
+
+	store.mutex.Lock()
+	defer store.mutex.Unlock()
+
+	index := store.cariIndexPeminjaman(id)
+	if index == -1 {
+		tulisError(writer, http.StatusNotFound, "peminjaman tidak ditemukan")
+		return
+	}
+	if store.daftarPeminjaman[index].Status == "dibatalkan" {
+		tulisError(writer, http.StatusConflict, "peminjaman sudah dibatalkan")
+		return
+	}
+
+	store.daftarPeminjaman[index].Status = "dibatalkan"
+	writer.WriteHeader(http.StatusNoContent)
 }
